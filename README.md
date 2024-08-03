@@ -16,13 +16,13 @@ The XO Game (Tic-Tac-Toe) is a Flutter application where players can play a clas
 
 ```bash``
 git clone https://github.com/NashiZz/xo_game.git
-cd xo_game
+cd xo_game ````
 
 ### 2. Install Dependencies
 Make sure you have Flutter installed and set up. Run the following command to install the required packages:
 
 ```bash``
-flutter pub get
+flutter pub get ````
 
 ### 3. Set Up Firebase
 Follow the Firebase documentation to set up a Firebase project and add Firebase to your Flutter application. Ensure that you configure the Firebase Firestore correctly to match the structure used in this app.
@@ -36,21 +36,22 @@ Update the android/app/build.gradle and ios/Runner/Info.plist with Firebase conf
 Make sure an emulator or physical device is connected. Run the following command:
 
 ```bash``
-flutter run
+flutter run ````
 
 ### 2. Building for Production
 To build a release version of the app, use:
 
 ```bash``
-flutter build apk --release
+flutter build apk --release ````
 
 or for iOS:
 
 ```bash``
 Copy code
-flutter build ios --release
+flutter build ios --release ````
 
 # Design
+
 ## Application Structure
 - lib/: Contains the main Dart code for the application.
   - main.dart: The entry point of the application.
@@ -63,26 +64,28 @@ flutter build ios --release
 - Replay Screen: Shows the board state and highlights the winning cells for a replayed game.
 
 # Algorithm
+
 ## Game Logic
+
 ### 1. Game State Management
-    - The game board is represented as a 2D list of strings.
-    - The current player alternates between 'X' and 'O'.
+- The game board is represented as a 2D list of strings.
+- The current player alternates between 'X' and 'O'.
 
 ### 2. Move Validation
-    - Moves are only valid if the selected cell is empty and the game is not won or drawn.
+- Moves are only valid if the selected cell is empty and the game is not won or drawn.
 
 ### 3. Winning Conditions
-    - The game checks for a winner by verifying rows, columns, and diagonals.
-    - Winning cells are stored and used to highlight the winning combination.
+- The game checks for a winner by verifying rows, columns, and diagonals.
+- Winning cells are stored and used to highlight the winning combination.
 
 ### 4. AI Behavior
-    - Easy Mode: Chooses a random empty cell.
-    - Medium Mode: Checks for immediate win or block and falls back to random if none found.
-    - Hard Mode: Uses the Minimax algorithm for optimal moves.
+- Easy Mode: Chooses a random empty cell.
+- Medium Mode: Checks for immediate win or block and falls back to random if none found.
+- Hard Mode: Uses the Minimax algorithm for optimal moves.
 
 ### 5. Minimax Algorithm
-    - A recursive algorithm that evaluates all possible moves to determine the best move.
-    - Scores moves based on whether they lead to a win, loss, or draw.
+- A recursive algorithm that evaluates all possible moves to determine the best move.
+- Scores moves based on whether they lead to a win, loss, or draw.
 
 # Firebase Integration
 - Firestore: Used to store game history, including board states, winners, and timestamps.
