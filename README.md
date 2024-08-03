@@ -65,24 +65,24 @@ flutter build ios --release
 # Algorithm
 ## Game Logic
 ### 1. Game State Management
-      - The game board is represented as a 2D list of strings.
-      - The current player alternates between 'X' and 'O'.
+    - The game board is represented as a 2D list of strings.
+    - The current player alternates between 'X' and 'O'.
 
 ### 2. Move Validation
-      - Moves are only valid if the selected cell is empty and the game is not won or drawn.
+    - Moves are only valid if the selected cell is empty and the game is not won or drawn.
 
 ### 3. Winning Conditions
-      - The game checks for a winner by verifying rows, columns, and diagonals.
-      - Winning cells are stored and used to highlight the winning combination.
+    - The game checks for a winner by verifying rows, columns, and diagonals.
+    - Winning cells are stored and used to highlight the winning combination.
 
 ### 4. AI Behavior
-      - Easy Mode: Chooses a random empty cell.
-      - Medium Mode: Checks for immediate win or block and falls back to random if none found.
-      - Hard Mode: Uses the Minimax algorithm for optimal moves.
+    - Easy Mode: Chooses a random empty cell.
+    - Medium Mode: Checks for immediate win or block and falls back to random if none found.
+    - Hard Mode: Uses the Minimax algorithm for optimal moves.
 
 ### 5. Minimax Algorithm
-      - A recursive algorithm that evaluates all possible moves to determine the best move.
-      - Scores moves based on whether they lead to a win, loss, or draw.
+    - A recursive algorithm that evaluates all possible moves to determine the best move.
+    - Scores moves based on whether they lead to a win, loss, or draw.
 
 # Firebase Integration
 - Firestore: Used to store game history, including board states, winners, and timestamps.
