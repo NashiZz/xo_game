@@ -14,13 +14,13 @@ The XO Game (Tic-Tac-Toe) is a Flutter application where players can play a clas
 
 ### 1. Clone the Repository
 
-        - git clone https://github.com/NashiZz/xo_game.git 
-        - cd xo_game 
+        git clone https://github.com/NashiZz/xo_game.git 
+        cd xo_game 
 
 ### 2. Install Dependencies
 Make sure you have Flutter installed and set up. Run the following command to install the required packages:
 
-        - flutter pub get 
+        flutter pub get 
 
 ### 3. Set Up Firebase
 Follow the Firebase documentation to set up a Firebase project and add Firebase to your Flutter application. Ensure that you configure the Firebase Firestore correctly to match the structure used in this app.
@@ -33,16 +33,16 @@ Update the android/app/build.gradle and ios/Runner/Info.plist with Firebase conf
 ### 1. Run the App on an Emulator or Device
 Make sure an emulator or physical device is connected. Run the following command:
 
-        - flutter run 
+        flutter run 
 
 ### 2. Building for Production
 To build a release version of the app, use:
 
-        - flutter build apk --release 
+        flutter build apk --release 
 
 or for iOS:
 
-        - flutter build ios --release
+        flutter build ios --release
 
 # Design
 
