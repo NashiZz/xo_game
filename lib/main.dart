@@ -43,20 +43,16 @@ Future<void> _signInAnonymously() async {
 Future<void> _createUserDocument(String uid) async {
   final userDocRef = FirebaseFirestore.instance.collection('history').doc(uid);
 
-  // ตรวจสอบว่าเอกสาร history มีอยู่แล้วหรือไม่
   final userDocSnapshot = await userDocRef.get();
   if (!userDocSnapshot.exists) {
-    // หากเอกสาร history ยังไม่ถูกสร้าง
     await userDocRef.set({});
     print('User document created for UID: $uid');
   } else {
     print('User document already exists for UID: $uid');
   }
 
-  // สร้าง collection games ถ้าหากยังไม่มี
   final gamesCollection = userDocRef.collection('games');
 
-  // ตรวจสอบว่า collection games มีเอกสารอยู่แล้วหรือไม่
   final gamesQuerySnapshot = await gamesCollection.limit(1).get();
   if (gamesQuerySnapshot.docs.isEmpty) {
     print('Collection games is empty for UID: $uid');
@@ -88,7 +84,6 @@ class MyApp extends StatelessWidget {
   }
 }
 
-// Example function to save game data to Firestore
 Future<void> saveGameToFirestore(List<List<String>> board, String winner,
     String winnerType, List<List<int>> winningCells) async {
   User? currentUser = FirebaseAuth.instance.currentUser;
@@ -102,7 +97,6 @@ Future<void> saveGameToFirestore(List<List<String>> board, String winner,
       'timestamp': FieldValue.serverTimestamp(),
     };
 
-    // บันทึกข้อมูลเกมใน collection games ของผู้ใช้
     await FirebaseFirestore.instance
         .collection('history')
         .doc(uid)

@@ -336,7 +336,6 @@ class _GameScreenState extends State<GameScreen> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        // Back to Main Screen Button
                         ElevatedButton(
                           onPressed: () {
                             _showNavigationDialog(context);
@@ -352,7 +351,6 @@ class _GameScreenState extends State<GameScreen> {
                             color: Colors.white,
                           ),
                         ),
-                        // Restart Game Button
                         ElevatedButton(
                           onPressed: _restartGame,
                           style: ElevatedButton.styleFrom(
