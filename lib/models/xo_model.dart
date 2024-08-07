@@ -12,7 +12,6 @@ class XOGame {
   String player;
   String difficulty;
   List<List<int>> winningCells = [];
-  List<List<int>> previousMoves = [];
 
   XOGame(this.size, this.player)
       : board = List.generate(size, (_) => List.filled(size, '')),
