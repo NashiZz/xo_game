@@ -13,8 +13,10 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('XO Game Home'),
+        backgroundColor: Colors.white,
       ),
       body: Container(
+        color: Colors.white,
         padding: EdgeInsets.symmetric(
           horizontal: isSmallScreen ? 20 : 40,
         ),
@@ -23,9 +25,9 @@ class HomeScreen extends StatelessWidget {
             Expanded(
               child: Center(
                 child: Image.asset(
-                  'assets/logo_img/logo_game.png',
-                  width: isSmallScreen ? 150 : 200,
-                  height: isSmallScreen ? 150 : 200,
+                  'assets/logo_img/XO.png',
+                  width: isSmallScreen ? 500 : 600,
+                  height: isSmallScreen ? 500 : 600,
                 ),
               ),
             ),
@@ -45,20 +47,31 @@ class HomeScreen extends StatelessWidget {
                       vertical: isSmallScreen ? 8 : 10,
                       horizontal: isSmallScreen ? 20 : 30,
                     ),
-                    backgroundColor: Colors.white,
+                    backgroundColor: Colors.blueAccent,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30),
                     ),
                   ),
-                  child: const Center(
-                    child: Text(
-                      "Play",
-                      style: TextStyle(
-                        color: Colors.deepPurple,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18,
+                  child: const Row(
+                    mainAxisAlignment:
+                        MainAxisAlignment.center, 
+                    crossAxisAlignment:
+                        CrossAxisAlignment.center, 
+                    children: [
+                      Icon(
+                        Icons.play_arrow_rounded,
+                        color: Colors.white,
+                        size: 24.0,
                       ),
-                    ),
+                      Text(
+                        "Play",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
                 const SizedBox(height: 20),
@@ -76,20 +89,31 @@ class HomeScreen extends StatelessWidget {
                       vertical: isSmallScreen ? 8 : 10,
                       horizontal: isSmallScreen ? 20 : 30,
                     ),
-                    backgroundColor: Colors.white,
+                    backgroundColor: Colors.blueAccent,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30),
                     ),
                   ),
-                  child: const Center(
-                    child: Text(
-                      "History Play",
-                      style: TextStyle(
-                        color: Colors.deepPurple,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18,
+                  child: const Row(
+                    mainAxisAlignment:
+                        MainAxisAlignment.center, 
+                    crossAxisAlignment:
+                        CrossAxisAlignment.center, 
+                    children: [
+                      Icon(
+                        Icons.history_rounded,
+                        color: Colors.white,
+                        size: 24.0,
                       ),
-                    ),
+                      Text(
+                        "History Play",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
                 const SizedBox(height: 20),
