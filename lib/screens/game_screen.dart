@@ -15,11 +15,12 @@ class GameScreen extends StatefulWidget {
 class _GameScreenState extends State<GameScreen> {
   late XOGame _game;
   late String _aiPlayer;
+  List<List<int>> _winningCells = [];
 
   @override
   void initState() {
     super.initState();
-    _game = XOGame(widget.boardSize, widget.player); // ส่งข้อมูลผู้เล่น
+    _game = XOGame(widget.boardSize, widget.player); 
     _aiPlayer = widget.player == 'X' ? 'O' : 'X';
 
     if (widget.player == 'O') {
@@ -33,15 +34,28 @@ class _GameScreenState extends State<GameScreen> {
     if (_game.currentPlayer == widget.player && _game.makeMove(row, col)) {
       setState(() {});
       if (_game.winner.isNotEmpty) {
+        _winningCells = _game.getWinningCells();
         _showEndGameDialog();
       } else {
         _game.aiMove();
         setState(() {});
         if (_game.winner.isNotEmpty) {
+          _winningCells = _game.getWinningCells(); 
           _showEndGameDialog();
         }
       }
     }
+  }
+
+  void _restartGame() {
+    setState(() {
+      _game.reset();
+      _winningCells = [];
+      if (widget.player == 'O') {
+        _game.currentPlayer = 'X';
+        _game.aiMove();
+      }
+    });
   }
 
   void _showEndGameDialog() {
@@ -55,22 +69,16 @@ class _GameScreenState extends State<GameScreen> {
           actions: [
             TextButton(
               onPressed: () {
-                setState(() {
-                  _game.reset();
-                  if (widget.player == 'O') {
-                    _game.currentPlayer = 'X';
-                    _game.aiMove();
-                  }
-                });
                 Navigator.of(context).pop();
+                _restartGame();
               },
-              child: const Text('Restart'),
+              child: const Text('Play Again'),
             ),
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop();
                 Navigator.of(context)
-                    .pop(); // This will navigate back to the main screen
+                    .pop(); 
               },
               child: const Text('Main Menu'),
             ),
@@ -90,9 +98,12 @@ class _GameScreenState extends State<GameScreen> {
         body: LayoutBuilder(
           builder: (context, constraints) {
             double boardSize =
-                constraints.maxWidth * 0.9; // Adjust size as needed
+                constraints.maxWidth * 0.9; 
             double cellSize = boardSize / _game.size;
-            double textSize = cellSize * 0.6; // Adjust text size as needed
+            double textSize = cellSize * 0.6; 
+
+            Color userColor = widget.player == 'X' ? Colors.blue : Colors.red;
+            Color aiColor = _aiPlayer == 'X' ? Colors.blue : Colors.red;
 
             return Column(
               children: [
@@ -101,18 +112,48 @@ class _GameScreenState extends State<GameScreen> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Column(
+                      // Column for Player
+                      Row(
                         children: [
-                          const Icon(Icons.person, size: 48),
-                          Text('User (${widget.player})',
+                          Container(
+                            padding: const EdgeInsets.all(6.0),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              shape: BoxShape.circle,
+                              border: Border.all(color: userColor, width: 4),
+                            ),
+                            child: Icon(
+                              Icons.person,
+                              size: 35,
+                              color: userColor,
+                            ),
+                          ),
+                          const SizedBox(
+                              width: 8.0), 
+                          Text('Player (${widget.player})',
                               style: const TextStyle(fontSize: 16)),
                         ],
                       ),
-                      Column(
+                      // Column for AI
+                      Row(
                         children: [
-                          const Icon(Icons.computer, size: 48),
                           Text('AI ($_aiPlayer)',
                               style: const TextStyle(fontSize: 16)),
+                          const SizedBox(
+                              width: 8.0),
+                          Container(
+                            padding: const EdgeInsets.all(6.0),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              shape: BoxShape.circle,
+                              border: Border.all(color: aiColor, width: 4),
+                            ),
+                            child: Icon(
+                              Icons.computer,
+                              size: 35,
+                              color: aiColor,
+                            ),
+                          ),
                         ],
                       ),
                     ],
@@ -120,7 +161,7 @@ class _GameScreenState extends State<GameScreen> {
                 ),
                 Expanded(
                   child: Center(
-                    child: Container(
+                    child: SizedBox(
                       width: boardSize,
                       height: boardSize,
                       child: GridView.builder(
@@ -130,6 +171,16 @@ class _GameScreenState extends State<GameScreen> {
                         itemBuilder: (context, index) {
                           int row = index ~/ _game.size;
                           int col = index % _game.size;
+                          bool isWinningCell = _winningCells
+                              .any((cell) => cell[0] == row && cell[1] == col);
+                          String cellContent = _game.board[row][col];
+                          Color cellColor = isWinningCell
+                              ? (cellContent == 'X' ? Colors.blue : Colors.red)
+                              : Colors.white;
+                          Color textColor = isWinningCell
+                              ? Colors.white
+                              : (cellContent == 'X' ? Colors.blue : Colors.red);
+
                           return GestureDetector(
                             onTap: () {
                               _handleTap(row, col);
@@ -137,13 +188,15 @@ class _GameScreenState extends State<GameScreen> {
                             child: Container(
                               decoration: BoxDecoration(
                                 border: Border.all(color: Colors.black),
+                                color: cellColor,
                               ),
                               child: Center(
                                 child: Text(
-                                  _game.board[row][col],
+                                  cellContent,
                                   style: TextStyle(
                                     fontSize: textSize,
                                     fontWeight: FontWeight.bold,
+                                    color: textColor,
                                   ),
                                 ),
                               ),
@@ -153,6 +206,13 @@ class _GameScreenState extends State<GameScreen> {
                         itemCount: _game.size * _game.size,
                       ),
                     ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(15.0),
+                  child: ElevatedButton(
+                    onPressed: _restartGame,
+                    child: const Text('Restart'),
                   ),
                 ),
               ],
