@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:xo_game/screens/select_player.dart';
 
 class SelectBoardSizeScreen extends StatefulWidget {
@@ -10,7 +11,7 @@ class SelectBoardSizeScreen extends StatefulWidget {
 
 class _SelectBoardSizeScreenState extends State<SelectBoardSizeScreen> {
   String? _selectedSize;
-  TextEditingController _customSizeController = TextEditingController();
+  final TextEditingController _customSizeController = TextEditingController();
 
   @override
   void initState() {
@@ -23,7 +24,7 @@ class _SelectBoardSizeScreenState extends State<SelectBoardSizeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Select Board size'),
+        title: const Text('Select Board Size'),
         backgroundColor: Colors.white,
       ),
       body: Container(
@@ -34,19 +35,20 @@ class _SelectBoardSizeScreenState extends State<SelectBoardSizeScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                'Select Board size',
+                'Select Board Size',
                 style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.indigo.shade700),
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.indigo.shade700,
+                ),
               ),
               const SizedBox(height: 15),
               SizedBox(
-                width: 200, 
+                width: 200,
                 height: 55,
                 child: DropdownButton<String>(
                   value: _selectedSize,
-                  isExpanded: true, 
+                  isExpanded: true,
                   items: ['3x3', '4x4', '5x5', 'Custom'].map((size) {
                     return DropdownMenuItem<String>(
                       value: size,
@@ -72,15 +74,29 @@ class _SelectBoardSizeScreenState extends State<SelectBoardSizeScreen> {
                     keyboardType: TextInputType.number,
                     decoration: const InputDecoration(
                       border: OutlineInputBorder(),
-                      labelText: 'size',
+                      labelText: 'Size',
+                      hintText: 'Enter a positive integer',
                     ),
+                    inputFormatters: [
+                      FilteringTextInputFormatter.digitsOnly,
+                    ],
                   ),
                 ),
               const SizedBox(height: 20),
               ElevatedButton(
                 onPressed: () {
-                  int size = int.tryParse(_customSizeController.text) ??
-                      int.parse(_selectedSize!.split('x').first);
+                  final inputText = _customSizeController.text;
+                  final size = int.tryParse(inputText);
+
+                  if (size == null || size <= 0) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text('Please enter a valid positive integer'),
+                      ),
+                    );
+                    return;
+                  }
+
                   Navigator.push(
                     context,
                     MaterialPageRoute(
