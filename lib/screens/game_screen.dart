@@ -276,56 +276,61 @@ class _GameScreenState extends State<GameScreen> {
                   ),
                   Expanded(
                     child: Center(
-                      child: SizedBox(
-                        width: boardSize,
-                        height: boardSize,
-                        child: Table(
-                          border: const TableBorder(
-                            horizontalInside:
-                                BorderSide(color: Colors.grey, width: 2),
-                            verticalInside:
-                                BorderSide(color: Colors.grey, width: 2),
-                          ),
-                          children: List.generate(_game.size, (row) {
-                            return TableRow(
-                              children: List.generate(_game.size, (col) {
-                                bool isWinningCell = _winningCells.any(
-                                    (cell) => cell[0] == row && cell[1] == col);
-                                String cellContent = _game.board[row][col];
-                                Color cellColor = isWinningCell
-                                    ? (cellContent == 'X'
-                                        ? Colors.blue.shade700
-                                        : Colors.lightBlue.shade500)
-                                    : Colors.transparent;
-                                Color textColor = isWinningCell
-                                    ? Colors.white
-                                    : (cellContent == 'X'
-                                        ? Colors.blue.shade700
-                                        : Colors.lightBlue.shade500);
+                      child: InteractiveViewer(
+                        minScale: 0.5,
+                        maxScale: 4.0,
+                        child: SizedBox(
+                          width: boardSize,
+                          height: boardSize,
+                          child: Table(
+                            border: const TableBorder(
+                              horizontalInside:
+                                  BorderSide(color: Colors.grey, width: 2),
+                              verticalInside:
+                                  BorderSide(color: Colors.grey, width: 2),
+                            ),
+                            children: List.generate(_game.size, (row) {
+                              return TableRow(
+                                children: List.generate(_game.size, (col) {
+                                  bool isWinningCell = _winningCells.any(
+                                      (cell) =>
+                                          cell[0] == row && cell[1] == col);
+                                  String cellContent = _game.board[row][col];
+                                  Color cellColor = isWinningCell
+                                      ? (cellContent == 'X'
+                                          ? Colors.blue.shade700
+                                          : Colors.lightBlue.shade500)
+                                      : Colors.transparent;
+                                  Color textColor = isWinningCell
+                                      ? Colors.white
+                                      : (cellContent == 'X'
+                                          ? Colors.blue.shade700
+                                          : Colors.lightBlue.shade500);
 
-                                return GestureDetector(
-                                  onTap: () {
-                                    _handleTap(row, col);
-                                  },
-                                  child: Container(
-                                    height: cellSize,
-                                    width: cellSize,
-                                    color: cellColor,
-                                    child: Center(
-                                      child: Text(
-                                        cellContent,
-                                        style: TextStyle(
-                                          fontSize: textSize,
-                                          fontWeight: FontWeight.bold,
-                                          color: textColor,
+                                  return GestureDetector(
+                                    onTap: () {
+                                      _handleTap(row, col);
+                                    },
+                                    child: Container(
+                                      height: cellSize,
+                                      width: cellSize,
+                                      color: cellColor,
+                                      child: Center(
+                                        child: Text(
+                                          cellContent,
+                                          style: TextStyle(
+                                            fontSize: textSize,
+                                            fontWeight: FontWeight.bold,
+                                            color: textColor,
+                                          ),
                                         ),
                                       ),
                                     ),
-                                  ),
-                                );
-                              }),
-                            );
-                          }),
+                                  );
+                                }),
+                              );
+                            }),
+                          ),
                         ),
                       ),
                     ),
@@ -412,13 +417,14 @@ class _GameScreenState extends State<GameScreen> {
                 children: [
                   ElevatedButton(
                     onPressed: () {
-                      Navigator.pushReplacement(
+                      Navigator.pushAndRemoveUntil(
                         context,
                         MaterialPageRoute(
                           builder: (context) => SelectPlayerScreen(
                             boardSize: _game.size,
                           ),
                         ),
+                        (route) => false,
                       );
                     },
                     style: ElevatedButton.styleFrom(
@@ -446,11 +452,12 @@ class _GameScreenState extends State<GameScreen> {
                   const SizedBox(height: 10),
                   ElevatedButton(
                     onPressed: () {
-                      Navigator.pushReplacement(
+                      Navigator.pushAndRemoveUntil(
                         context,
                         MaterialPageRoute(
                           builder: (context) => const SelectBoardSizeScreen(),
                         ),
+                        (route) => false,
                       );
                     },
                     style: ElevatedButton.styleFrom(
@@ -478,11 +485,12 @@ class _GameScreenState extends State<GameScreen> {
                   const SizedBox(height: 10),
                   ElevatedButton(
                     onPressed: () {
-                      Navigator.pushReplacement(
+                      Navigator.pushAndRemoveUntil(
                         context,
                         MaterialPageRoute(
                           builder: (context) => const HomeScreen(),
                         ),
+                        (route) => false,
                       );
                     },
                     style: ElevatedButton.styleFrom(
